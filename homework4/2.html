@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Homework</title>
+</head>
+
+<body>
+  <!--
+Обязательное задание.
+
+Необходимо данное задание выполнить в es5 стиле и в es6 стиле.
+Необходимо создать функцию-конструктор/класс для поста в социальной сети.
+Названия: `PostES5` для es5 стиля и `PostES6` для es6 стиля.
+Пост должен хранить:
+1. Автора поста (имени достаточно).
+2. Текст поста.
+3. Дату и время последнего изменения поста.
+Данные автора поста и текст поста необходимо передавать при создании
+экземпляра объекта.
+Каждому экземпляру объекта должен быть доступен метод `edit`, который будет
+менять текст поста.
+
+---
+
+Необходимо создать функцию-конструктор/класс для закрепленного поста в
+социальной сети.
+Названия: `AttachedPostES5` для es5 стиля и `AttachedPostES6` для es6 стиля.
+Закрепленный пост должен наследоваться от обычного поста.
+Данные автора поста и текст поста необходимо передавать при создании
+экземпляра объекта.
+Закрепленный пост должен иметь свойство `highlighted`, в котором по умолчанию
+будет лежать значение false (это свойство будет обозначать, будет ли наш
+закрепленный пост подсвечен).
+У экземпляров объекта закрепленного поста должен быть метод с названием
+`makeTextHighlighted`, который сделает так, чтобы наш пост стал подсвеченным
+(будет менять свойство `highlighted`).
+
+---
+
+Подсказки:
+1. Задание сложное, советую делать по аналогии с примером на онлайн-занятии.
+2. Обратите внимание что пост хранит "дату и время последнего изменения
+поста", это значит что если пост кто-то изменит (например вызовет какой-то
+метод, который изменит что-то в посте), дата и время последнего изменения
+поста также должна измениться.
+3. Выполняйте все по порядку, не стоит пытаться сделать все сразу, иначе можно
+что-нибудь пропустить.
+4. Если непонятно условие - задайте вопрос.
+-->
+  <script>
+    "use strict";
+
+    /** 
+     * Function - constructor, presented a Post class.
+     * @constructor
+     * @param {string} name - author's name
+     * @param {string} text - text of the post
+     */
+    function PostES5(name, text) {
+      this.name = name;
+      this.text = text;
+      this.lastUpdate = new Date();
+      this.edit = function (text) {
+        this.text = text;
+        this.lastUpdate = new Date();
+      }
+    }
+
+    let postES5 = new PostES5(`name`, `text`);
+    console.log(postES5);
+    postES5.edit('new-text');
+    console.log(postES5);
+
+
+    /** 
+     * Function - constructor, presented an Attached Post. 
+     * @constructor
+     * @param {string} - author name
+     * @param {string} - post text
+     * @extends PostES5
+    */
+    function AttachedPostES5(name, text) {
+      PostES5.call(this, name, text);
+      this.highlighted = false;
+      this.makeTextHighlighted = function (highlighted) {
+        this.highlighted = highlighted;
+        this.lastUpdate = new Date();
+      }
+    }
+
+
+    postES5 = new AttachedPostES5(`name`, `text`);
+    console.log(postES5);
+    postES5.edit('new-text');
+    postES5.makeTextHighlighted(true);
+    console.log(postES5);
+
+
+    class PostES6 {
+      constructor(name, text) {
+        this.name = name;
+        this.text = text;
+        this.lastUpdate = new Date();
+      }
+
+      edit(text) {
+        this.text = text;
+        this.lastUpdate = new Date();
+      }
+    }
+
+    let postES6 = new PostES6(`name`, `text`);
+    console.log(postES6);
+    postES6.edit(`name`, `text`);
+    console.log(postES6);
+
+    /** 
+     * Class presented AttachedPost
+     * @extends PostES6
+    */
+    class AttachedPostES6 extends PostES6 {
+      /** 
+       * Constructor
+       * @param {string} name - The name of the Post Author.
+       * @param {string} text - Post's text.
+       * Also contains highlighted field, that present the state of the AttachedPosts.
+      */
+      constructor(name, text) {
+        super(name, text);
+        this.highlighted = false;
+      }
+
+      /**
+       * Update highlighed field
+       * @param {boolean} highlighted - Represent a state of the Attached Post.
+       */
+      makeTextHighlighted(highlighted) {
+        this.highlighted = highlighted;
+        this.lastUpdate = new Date();
+      }
+    }
+
+    postES6 = new PostES6(`name`, `text`); /** Create post */
+    console.log(postES6);   /** log post after initialization */
+    postES6.edit(`name`, `new Post text`);  /** change post text */
+    postES6.makeTextHighlighted(true);   /** mark text as highlighted */
+    console.log(postES6);  /** log post after state has changed */
+
+  </script>
+</body>
+
+</html>
