@@ -102,8 +102,9 @@
       constructor(name, text) {
         this.name = name;
         this.text = text;
-        this.lastUpdate = new Date();
       }
+
+      lastUpdate = new Date();
 
       edit(text) {
         this.text = text;
